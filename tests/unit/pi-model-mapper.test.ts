@@ -393,8 +393,8 @@ describe('mapPiModelToProfile', () => {
 
   describe('registry cost pricing (SP-046)', () => {
     const registryCost = {
-      input: 1.5e-7,
-      output: 6e-7,
+      input: 1.5,
+      output: 6,
       cacheRead: 0,
       cacheWrite: 0,
     };
@@ -409,7 +409,7 @@ describe('mapPiModelToProfile', () => {
       );
 
       expect(profile.tier).toBe('economical-cloud');
-      expect(profile.pricing.fallback_cost_per_1m).toBeCloseTo(0.375, 5);
+      expect(profile.pricing.fallback_cost_per_1m).toBeCloseTo(3.75, 5);
     });
 
     it('keeps pattern default when cost is omitted', () => {

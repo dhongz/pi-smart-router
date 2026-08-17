@@ -181,7 +181,7 @@ function withBenchmarkCapabilities(
   };
 }
 
-/** Pi registry `Model.cost` shape — per-token USD rates. */
+/** Pi registry `Model.cost` shape — USD per million tokens. */
 export interface PiRegistryCost {
   readonly input: number;
   readonly output: number;
@@ -350,8 +350,9 @@ function matchPatternRules(id: string): ModelFamilyDefaults | undefined {
 }
 
 /**
- * Registry cost → USD per 1M tokens: average of input and output rates scaled to 1M.
- * Matches `computeCostPer1MTokens` in litellm-fetch (SP-045/SP-046).
+ * Registry cost → USD per 1M tokens: average of input and output rates.
+ * Pi's Model.cost fields are already expressed per million tokens; the
+ * LiteLLM ingestion path performs its own per-token conversion separately.
  * Returns undefined when both input and output rates are zero (use pattern default).
  */
 function deriveFallbackCostPer1M(cost: PiRegistryCost): number | undefined {
@@ -360,9 +361,7 @@ function deriveFallbackCostPer1M(cost: PiRegistryCost): number | undefined {
     return undefined;
   }
 
-  const inputPer1M = input * 1_000_000;
-  const outputPer1M = output * 1_000_000;
-  return (inputPer1M + outputPer1M) / 2;
+  return (input + output) / 2;
 }
 
 function resolveFallbackCost(
