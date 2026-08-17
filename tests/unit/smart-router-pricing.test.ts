@@ -394,8 +394,8 @@ describe('discoverFleet pricing integration (SP-045)', () => {
 
 describe('discoverFleet registry cost pass-through (SP-046)', () => {
   const registryCost = {
-    input: 1.5,
-    output: 6,
+    input: 1.5e-7,
+    output: 6e-7,
     cacheRead: 0,
     cacheWrite: 0,
   };
@@ -409,7 +409,7 @@ describe('discoverFleet registry cost pass-through (SP-046)', () => {
     const { fleet } = await discoverFleet(registry, 'all', '/tmp', store);
 
     expect(fleet).toHaveLength(1);
-    expect(fleet[0]?.pricing.fallback_cost_per_1m).toBeCloseTo(3.75, 5);
+    expect(fleet[0]?.pricing.fallback_cost_per_1m).toBeCloseTo(0.375, 5);
   });
 
   it('maps registry Model.cost into fleet profiles in scoped mode', async () => {
@@ -425,7 +425,7 @@ describe('discoverFleet registry cost pass-through (SP-046)', () => {
     });
 
     expect(fleet).toHaveLength(1);
-    expect(fleet[0]?.pricing.fallback_cost_per_1m).toBeCloseTo(3.75, 5);
+    expect(fleet[0]?.pricing.fallback_cost_per_1m).toBeCloseTo(0.375, 5);
   });
 });
 
